@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> 
+      Add New Note
+ 
+  </ion-title>
+  
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+   
+  <ion-item>
+    <ion-label>Date</ion-label>
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Time</ion-label>
+    <ion-datetime  displayFormat="hh:mm" [(ngModel)]="myTime"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-input placeholder="Title"[(ngModel)]="title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea placeholder="Start Typing..."[(ngModel)]="note"></ion-textarea>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6>
+        <ion-button (click)="closeModal()" expand="block" color="danger" fill="outline">Dismiss</ion-button>
+      </ion-col>
+      <ion-col col-6>
+        <ion-button (click)="submitTask()"expand="block"color="primary">Add</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

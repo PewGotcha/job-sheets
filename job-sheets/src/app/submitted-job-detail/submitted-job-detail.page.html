@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{(jobDetail | async)?.title}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-item>
+  <p>Job Reference: {{(jobDetail | async)?.id}}</p>
+</ion-item>
+<ion-item>
+  <p>Completed: {{(jobDetail | async)?.completed}}</p>
+</ion-item>
+</ion-content>

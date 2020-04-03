@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Completed Jobs
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+    <ion-item [routerLink]="['submitted-job-detail',submitted.id]" button *ngFor="let submitted of (jobList | async)">
+      <ion-label class="ion-text-wrap">
+        <ion-title>{{submitted.title}}</ion-title>
+        <ion-text>
+          {{submitted.id}}
+        </ion-text>
+      </ion-label>
+    </ion-item>
+
+</ion-list>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-content color="dark">
+
+  <ion-img class="logo" src="https://configiouk.blob.core.windows.net/media/em_Capita_UniversityHertfordshire/Attachments/Simmons/logo.png"></ion-img>
+  
+    <ion-card>
+    <ion-card-content>
+      <form [formGroup]="loginFormGroup">
+        <ion-item>
+          <ion-label>
+            Email
+          </ion-label>
+          <ion-input formControlName="email" type="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Password
+          </ion-label>
+          <ion-input formControlName="password" type="password"></ion-input>
+        </ion-item>
+
+        <ion-button [disabled]= "loginFormGroup.invalid" margin-top expand="full" (click)="login()">Login</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
