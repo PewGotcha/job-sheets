@@ -210,15 +210,18 @@
   </div>
 
   <ion-list>
+    <div *ngFor="let job of (jobList | async)">
+      <ion-item  [routerLink]="['job-detail',job.id]" *ngIf="!job.completed" button>
 
-      <ion-item *ngFor="let job of (jobList | async)" [routerLink]="['job-detail',job.id]" button>
         <ion-label class="ion-text-wrap">
           <ion-title>{{job.title}}</ion-title>
           <ion-text>
             {{job.id}}
           </ion-text>
         </ion-label>
+  
       </ion-item>
+    </div>
 
   </ion-list>
 

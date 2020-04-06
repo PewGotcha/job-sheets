@@ -30,7 +30,7 @@ export class JobDetailPage implements OnInit {
     this.jobDetail = jobsService.getJob(jobID);
   }
 
-
+   
   ngOnInit() {
   }
   async openModal() {
@@ -44,22 +44,24 @@ export class JobDetailPage implements OnInit {
   }
 
   submit() {
+
     this.jobDetail.subscribe(
       (selectedJob) => {
         this._angularFireStore
-          .collection("completed", (ref) => {
+          .collection("jobs", (ref) => {
             return ref.where("id", "==", selectedJob.id)
           })
           .get()
           .subscribe((doc) => {
             if (doc.empty) {
               this._angularFireStore
-                .collection("completed")
+                .collection("jobs")
                 .add(selectedJob)
 
             }
           })
       }
     );
-  }
+}
+
 }

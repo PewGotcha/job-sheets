@@ -8,7 +8,8 @@
 
 <ion-content>
 <ion-list>
-    <ion-item [routerLink]="['submitted-job-detail',submitted.id]" button *ngFor="let submitted of (jobList | async)">
+  <div *ngFor="let submitted of (jobList | async)">
+    <ion-item [routerLink]="['submitted-job-detail',submitted.id]" *ngIf="!submitted.completed" button >
       <ion-label class="ion-text-wrap">
         <ion-title>{{submitted.title}}</ion-title>
         <ion-text>
@@ -16,6 +17,6 @@
         </ion-text>
       </ion-label>
     </ion-item>
-
+  </div>
 </ion-list>
 </ion-content>
