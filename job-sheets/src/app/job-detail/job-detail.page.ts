@@ -45,7 +45,8 @@ export class JobDetailPage implements OnInit {
 
   submit() {
 
-    this.jobDetail.subscribe(
+    //Updated the collection with a new submitted document
+     this.jobDetail.subscribe(
       (selectedJob) => {
         this._angularFireStore
           .collection("jobs", (ref) => {
@@ -61,7 +62,19 @@ export class JobDetailPage implements OnInit {
             }
           })
       }
-    );
+    ); 
+
+  }
+    updateDoc() {
+
+      //attempt to update one field in the document within the collection
+      let doc = this._angularFireStore.collection('jobs', (ref) => { return ref.where('id', '==', this.jobID)});
+      console.log(doc);
+  doc.snapshotChanges().subscribe((res: any) => {
+    this._angularFireStore.collection('options').doc('completed').update(false);
+  });
 }
+
+
 
 }
