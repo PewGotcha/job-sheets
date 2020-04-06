@@ -8,7 +8,7 @@
 
 <ion-content>
 
-  <div *ngIf="!jobList">
+  <div *ngIf="!realJobList">
     <ion-item>
       <ion-label>
         <ion-title>
@@ -209,21 +209,21 @@
     </ion-item>
   </div>
 
-  <ion-list>
-    <div *ngFor="let job of (jobList | async)">
-      <ion-item  [routerLink]="['job-detail',job.id]" *ngIf="!job.completed" button>
 
-        <ion-label class="ion-text-wrap">
-          <ion-title>{{job.title}}</ion-title>
-          <ion-text>
-            {{job.id}}
-          </ion-text>
-        </ion-label>
-  
-      </ion-item>
-    </div>
 
-  </ion-list>
-
+  <ion-content>
+    <ion-list>
+      <div *ngFor="let submitted of (realJobList | async)">
+        <ion-item [routerLink]="['submitted-job-detail',submitted.id]" *ngIf="submitted.completed == false" button >
+          <ion-label class="ion-text-wrap">
+            <ion-title>{{submitted.title}}</ion-title>
+            <ion-text>
+              {{submitted.id}}
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+    </ion-content>
 
 </ion-content>

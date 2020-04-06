@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Jobs} from '../types';
-import {JobsService} from '../jobs.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tab2',
@@ -9,12 +8,11 @@ import {JobsService} from '../jobs.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
   
-  jobList: Observable<Jobs[]>;
+  realJobList: Observable<any>;
 
-  constructor(jobService: JobsService) {
-    this.jobList = jobService.submittedJobs();
+  constructor(private _angularFireStore: AngularFirestore) {
+    this.realJobList =  _angularFireStore.collection("jobs").valueChanges();
 
   }
 
