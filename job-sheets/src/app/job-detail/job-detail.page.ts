@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {Jobs} from '../types';
-import {JobsService} from '../jobs.service';
+import { Observable } from 'rxjs';
+import { Jobs } from '../types';
+import { JobsService } from '../jobs.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TaskFormPage } from '../task-form/task-form.page';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-job-detail',
@@ -20,71 +22,44 @@ export class JobDetailPage implements OnInit {
   constructor(
     private _angularFireStore: AngularFirestore,
     private _modalController: ModalController,
-    jobsService: JobsService, 
+    private _angularFireAuth: AngularFireAuth,
+    jobsService: JobsService,
     activatedRoute: ActivatedRoute) {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
-   }
+  }
 
 
   ngOnInit() {
   }
-  async openModal(){
+  async openModal() {
     const taskModal = await this._modalController.create({
-      component: TaskFormPage});
-      return await taskModal.present();
-  }
-  addNewTask(){
-    console.log("Add button pressed")
-  }
-  /*
-  async openModal(){
-    const taskModal = await this._modalController.create({
-    component: TaskFormPage});
-
+      component: TaskFormPage
+    });
     return await taskModal.present();
   }
-*/
-/* 
-submitTwo(){
-  this.jobDetail.subscribe(
-    (job)=> {
-      this._angularFireStore
-        .collection("submitted")
-        .doc(this.jobID)
-        .collection("job details").get().subscribe(()=> {
-              this._angularFireStore
-              .collection("submitted")
-              .doc(this.jobID)
-               .collection("job details")
-               .add(job)
+  addNewTask() {
+    console.log("Add button pressed")
+  }
 
-            
+  submit() {
+    this.jobDetail.subscribe(
+      (selectedJob) => {
+        this._angularFireStore
+          .collection("completed", (ref) => {
+            return ref.where("id", "==", selectedJob.id)
           })
-    }
-   );
-}
-
-submitThree(){
-  this.jobDetail.subscribe(
-    (job)=> {
-      this._angularFireStore
-        .collection("submitted")
-        .doc(this.jobID)
-        .collection("job details").get().subscribe(()=> {
+          .get()
+          .subscribe((doc) => {
+            if (doc.empty) {
               this._angularFireStore
-              .collection("submitted")
-              .doc(this.jobID)
-               .collection("job details")
-               .add(job)
- 
-            
+                .collection("completed")
+                .add(selectedJob)
+
+            }
           })
-    }
-  );
-}
-
-*/
-
+      }
+    );
+  }
 }
