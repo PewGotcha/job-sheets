@@ -18,6 +18,7 @@ export class JobDetailPage implements OnInit {
 
   jobDetail: Observable<Jobs>;
   jobID: string;
+  realJobDetail: any;
 
   constructor(
     private _angularFireStore: AngularFirestore,
@@ -28,6 +29,7 @@ export class JobDetailPage implements OnInit {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
+    this.realJobDetail = _angularFireStore.collection("jobs").doc('1');;
   }
 
    
@@ -65,16 +67,71 @@ export class JobDetailPage implements OnInit {
     ); 
 
   }
-    updateDoc() {
 
-      //attempt to update one field in the document within the collection
-      let doc = this._angularFireStore.collection('jobs', (ref) => { return ref.where('id', '==', this.jobID)});
-      console.log(doc);
-  doc.snapshotChanges().subscribe((res: any) => {
-    this._angularFireStore.collection('options').doc('completed').update(false);
-  });
+  submit2() {
+
+    //Updated the field in a certain record
+    console.log(this.jobID);
+    console.log(this.jobID + "")
+   let referenceID = this.jobID + "";
+   console.log("reference ID : " + referenceID)
+     this.jobDetail.subscribe(
+
+
+      
+      (thisOnes) => {
+        this._angularFireStore
+          .collection("jobs", (ref) => {
+            return ref.where("id", "==", thisOnes.id)
+          })
+          .get()
+          .subscribe((doc) => {
+           
+            this._angularFireStore.collection("jobs").doc(referenceID).update({ completed: "true" });
+
+          
+          })
+          console.log("job ran")
+      }
+    ); 
+
+  }
+
+  submit3(){
+    let refTwo = (dave => {return dave.where("id", "==", this.jobID)
+    }
+    ) 
+     let example = this._angularFireStore.collection("jobs").doc(refTwo + "");
+
+        console.log(example);
+
+  this.jobDetail.subscribe(
+      
+    (thisOnes) => {
+      this._angularFireStore
+        .collection("jobs", (ref) => {
+          return ref.where("id", "==", thisOnes.id)
+        })
+        .get()
+        .subscribe((doc) => {
+         
+          this._angularFireStore.collection("jobs").doc(example + "").update({ completed: "true" });
+
+        
+        })
+    }
+  ); 
+
+/*  test(){
+
+    let referenceID = this._angularFireStore.collection("jobs").doc((selectedJob) => {(ref) => { return ref.where("id", "==", selectedJob.DocumentID)}});
+
+  } */
+
 }
 
 
+ 
 
 }
+
