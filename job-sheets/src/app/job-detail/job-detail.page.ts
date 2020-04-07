@@ -7,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { TaskFormPage } from '../task-form/task-form.page';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NumberValueAccessor } from '@angular/forms';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class JobDetailPage implements OnInit {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
-    this.realJobDetail = _angularFireStore.collection("jobs").doc('1');;
+    activatedRoute.params.subscribe(params => { this.refID = +params['id']})
+    
   }
 
    
@@ -40,6 +42,7 @@ export class JobDetailPage implements OnInit {
       component: TaskFormPage
     });
     return await taskModal.present();
+    
   }
   addNewTask() {
     console.log("Add button pressed")
@@ -97,30 +100,20 @@ export class JobDetailPage implements OnInit {
 
   }
 
+
+  
   submit3(){
-    let refTwo = (dave => {return dave.where("id", "==", this.jobID)
-    }
-    ) 
-     let example = this._angularFireStore.collection("jobs").doc(refTwo + "");
-
-        console.log(example);
-
-  this.jobDetail.subscribe(
-      
-    (thisOnes) => {
-      this._angularFireStore
-        .collection("jobs", (ref) => {
-          return ref.where("id", "==", thisOnes.id)
-        })
-        .get()
-        .subscribe((doc) => {
-         
-          this._angularFireStore.collection("jobs").doc(example + "").update({ completed: "true" });
+    let url = window.location.href + "";
+    let parts = url.split("/");
+    let result = parts[parts.length - 1];
+    let item = this._angularFireStore.collection("jobs").doc(result + "");
+    console.log("refID " + result);
+    item.update({ completed: true });
 
         
-        })
+        
     }
-  ); 
+ 
 
 /*  test(){
 
@@ -133,5 +126,5 @@ export class JobDetailPage implements OnInit {
 
  
 
-}
+
 
