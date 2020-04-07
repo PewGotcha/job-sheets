@@ -30,7 +30,7 @@ export class JobDetailPage implements OnInit {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
-    activatedRoute.params.subscribe(params => { this.refID = +params['id']})
+
     
   }
 
@@ -48,7 +48,7 @@ export class JobDetailPage implements OnInit {
     console.log("Add button pressed")
   }
 
-  submit() {
+/*   submit() {
 
     //Updated the collection with a new submitted document
      this.jobDetail.subscribe(
@@ -98,7 +98,7 @@ export class JobDetailPage implements OnInit {
       }
     ); 
 
-  }
+  } */
 
 
   
@@ -109,7 +109,8 @@ export class JobDetailPage implements OnInit {
     let item = this._angularFireStore.collection("jobs").doc(result + "");
     console.log("refID " + result);
     item.update({ completed: true });
-
+    setTimeout(() => { window.location.assign("../tabs/tab1"); }, 2000);
+    
         
         
     }
