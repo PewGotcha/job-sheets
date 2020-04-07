@@ -19,7 +19,7 @@ export class JobDetailPage implements OnInit {
 
   jobDetail: Observable<Jobs>;
   jobID: string;
-  realJobDetail: any;
+  taskList: any;
 
   constructor(
     private _angularFireStore: AngularFirestore,
@@ -30,7 +30,7 @@ export class JobDetailPage implements OnInit {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
-
+    this.taskList =  _angularFireStore.collection("jobs").doc(jobID).collection("tasks").valueChanges(); //amend this "1" so its pulling the right data
     
   }
 
@@ -42,6 +42,7 @@ export class JobDetailPage implements OnInit {
       component: TaskFormPage
     });
     return await taskModal.present();
+    
     
   }
   addNewTask() {
@@ -103,11 +104,8 @@ export class JobDetailPage implements OnInit {
 
   
   submit3(){
-    let url = window.location.href + "";
-    let parts = url.split("/");
-    let result = parts[parts.length - 1];
-    let item = this._angularFireStore.collection("jobs").doc(result + "");
-    console.log("refID " + result);
+    let item = this._angularFireStore.collection("jobs").doc(this.getDocReference() + "");
+    console.log("refID " + item);
     item.update({ completed: true });
     setTimeout(() => { window.location.assign("../tabs/tab1"); }, 2000);
     
@@ -115,6 +113,13 @@ export class JobDetailPage implements OnInit {
         
     }
  
+    getDocReference(){
+
+      let url = window.location.href + "";
+      let parts = url.split("/");
+      let result = parts[parts.length - 1];
+      return result;
+    }
 
 /*  test(){
 

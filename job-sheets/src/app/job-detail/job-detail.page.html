@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{(jobDetail | async)?.title}}</ion-title>
+    <ion-title>{{(taskList | async)?.title}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
       </ion-buttons>
@@ -34,26 +34,34 @@ Contact:
                   Address:
                       </ion-item>
   </ion-card>
-  <ion-card>
-    <ion-list>
+
+ 
+    <ion-card *ngIf="!taskList">
+      <ion-card-header>No notes added yet</ion-card-header>
+    </ion-card>
+
+
+  <ion-card  *ngFor="let tasks of (taskList | async)">
+    <ion-list >
       <ion-item lines='none'>
         <ion-label>
-          <strong>7B Group</strong>
+          <strong>{{tasks.title}}</strong>
         </ion-label>
 
-        <ion-chip color="primary">Shane</ion-chip>
+        <ion-chip color="primary">{{tasks.user}}</ion-chip>
       </ion-item>
 
       <ion-item lines='none'>
-        <ion-text>The full task notes will be here. This may be a considerable amount of information so I will need to write this out in order to see how the app manages the format of this amount of textual information. I love giraffes</ion-text>
+        <ion-text>{{tasks.notes}}</ion-text>
       </ion-item>
 
       <ion-item lines='none'>
-        <ion-text><i>28th March 2020 14:20</i></ion-text>
+        <ion-text><i>{{tasks.time}} {{tasks.date}}</i></ion-text>
       </ion-item>
 
     </ion-list>
   </ion-card>
+
   <ion-fab vertical ="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openModal()">
       <ion-icon name="add"></ion-icon>
