@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{(taskList | async)?.title}}</ion-title>
+    <ion-title>{{(jobDetail | async)?.title}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
       </ion-buttons>
@@ -56,7 +56,7 @@ Contact:
       </ion-item>
 
       <ion-item lines='none'>
-        <ion-text><i>{{tasks.time}} {{tasks.date}}</i></ion-text>
+        <ion-text><i>{{tasks.date}}</i></ion-text>
       </ion-item>
 
     </ion-list>

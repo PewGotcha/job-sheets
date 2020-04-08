@@ -20,8 +20,8 @@ export class JobDetailPage implements OnInit {
   jobDetail: Observable<Jobs>;
   jobID: string;
   taskList: any;
-
-  constructor(
+  //jobsList = [];
+   constructor(
     private _angularFireStore: AngularFirestore,
     private _modalController: ModalController,
     private _angularFireAuth: AngularFireAuth,
@@ -31,12 +31,25 @@ export class JobDetailPage implements OnInit {
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
     this.taskList =  _angularFireStore.collection("jobs").doc(jobID).collection("tasks").valueChanges(); //amend this "1" so its pulling the right data
-    
+    let jobsList = [];
   }
 
    
   ngOnInit() {
+//pull data from the firestore, put it into an array so we can reference it
+/* this._angularFireStore.collection('jobs').snapshotChanges().subscribe(jobsList => {
+  this.jobsList = [];
+  jobsList.forEach(a => {
+    let realJobDetails: any = a.payload.doc.data();
+    realJobDetails.uid = a.payload.doc.id;
+    this.jobsList.push(realJobDetails); 
   }
+  )
+}
+)  */
+
+  }
+  
   async openModal() {
     const taskModal = await this._modalController.create({
       component: TaskFormPage
