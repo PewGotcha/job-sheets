@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Jobs } from '../types';
+import { Jobs, jobInformation } from '../types';
 import { JobsService } from '../jobs.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TaskFormPage } from '../task-form/task-form.page';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NumberValueAccessor } from '@angular/forms';
-
+import{ take } from 'rxjs/operators'
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'app-job-detail',
@@ -20,7 +21,14 @@ export class JobDetailPage implements OnInit {
   jobDetail: Observable<Jobs>;
   jobID: string;
   taskList: any;
-  //jobsList = [];
+  jobInfo: jobInformation;
+  title: string = "";
+  completed: false = false;
+  id: number = 0;
+  location: number = 0;
+  
+
+  
    constructor(
     private _angularFireStore: AngularFirestore,
     private _modalController: ModalController,
@@ -30,23 +38,14 @@ export class JobDetailPage implements OnInit {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
-    this.taskList =  _angularFireStore.collection("jobs").doc(jobID).collection("tasks").valueChanges(); //amend this "1" so its pulling the right data
-    let jobsList = [];
-  }
+    this.taskList =  _angularFireStore.collection("jobs").doc(jobID).collection("tasks").valueChanges(); 
+      }
 
    
   ngOnInit() {
-//pull data from the firestore, put it into an array so we can reference it
-/* this._angularFireStore.collection('jobs').snapshotChanges().subscribe(jobsList => {
-  this.jobsList = [];
-  jobsList.forEach(a => {
-    let realJobDetails: any = a.payload.doc.data();
-    realJobDetails.uid = a.payload.doc.id;
-    this.jobsList.push(realJobDetails); 
-  }
-  )
-}
-)  */
+    this.getJobInfo();
+    console.log("Job Info object", this.jobInfo);
+  
 
   }
   
@@ -58,71 +57,12 @@ export class JobDetailPage implements OnInit {
     
     
   }
-  addNewTask() {
-    console.log("Add button pressed")
-  }
-
-/*   submit() {
-
-    //Updated the collection with a new submitted document
-     this.jobDetail.subscribe(
-      (selectedJob) => {
-        this._angularFireStore
-          .collection("jobs", (ref) => {
-            return ref.where("id", "==", selectedJob.id)
-          })
-          .get()
-          .subscribe((doc) => {
-            if (doc.empty) {
-              this._angularFireStore
-                .collection("jobs")
-                .add(selectedJob)
-
-            }
-          })
-      }
-    ); 
-
-  }
-
-  submit2() {
-
-    //Updated the field in a certain record
-    console.log(this.jobID);
-    console.log(this.jobID + "")
-   let referenceID = this.jobID + "";
-   console.log("reference ID : " + referenceID)
-     this.jobDetail.subscribe(
-
-
-      
-      (thisOnes) => {
-        this._angularFireStore
-          .collection("jobs", (ref) => {
-            return ref.where("id", "==", thisOnes.id)
-          })
-          .get()
-          .subscribe((doc) => {
-           
-            this._angularFireStore.collection("jobs").doc(referenceID).update({ completed: "true" });
-
-          
-          })
-          console.log("job ran")
-      }
-    ); 
-
-  } */
-
-
   
-  submit3(){
+  submit(){
     let item = this._angularFireStore.collection("jobs").doc(this.getDocReference() + "");
     console.log("refID " + item);
     item.update({ completed: true });
-    setTimeout(() => { window.location.assign("../tabs/tab1"); }, 2000);
-    
-        
+    setTimeout(() => { window.location.assign("../tabs/tab1"); }, 2000); 
         
     }
  
@@ -132,13 +72,49 @@ export class JobDetailPage implements OnInit {
       let parts = url.split("/");
       let result = parts[parts.length - 1];
       return result;
+
     }
 
-/*  test(){
 
-    let referenceID = this._angularFireStore.collection("jobs").doc((selectedJob) => {(ref) => { return ref.where("id", "==", selectedJob.DocumentID)}});
+    getJobInfo() {
+      this._angularFireStore.doc('jobs/'+this.getDocReference())
+        .snapshotChanges().pipe(
+        map(snap => {
+          if (snap.payload.exists) {
+            const obj = snap.payload.data() as jobInformation;
+            obj.id = +snap.payload.id;
+            return obj;
+          }
+        }))
+        .subscribe(response => {
+          console.log(response);
+          this.jobInfo = response;
+          this.title = response.title;
+          this.id = response.id;
+          this.location = response.location;
+        });
+      
+    }
 
-  } */
+   /*  getLocationInfo() {
+      this._angularFireStore.doc('jobs/'+this.getDocReference())
+        .snapshotChanges().pipe(
+        map(snap => {
+          if (snap.payload.exists) {
+            const obj = snap.payload.data() as jobInformation;
+            obj.id = +snap.payload.id;
+            return obj;
+          }
+        }))
+        .subscribe(response => {
+          console.log(response);
+          this.jobInfo = response;
+          this.title = response.title;
+          this.id = response.id;
+          this.location = response.location;
+        });
+      
+    } */
 
 }
 

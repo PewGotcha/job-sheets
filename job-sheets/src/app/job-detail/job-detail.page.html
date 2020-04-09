@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{(jobDetail | async)?.title}}</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
       </ion-buttons>
-      <ion-buttons slot="end"><ion-chip color="primary" (click)='submit3()' >Submit</ion-chip></ion-buttons>
+      <ion-buttons slot="end"><ion-chip color="primary" (click)='submit()' >Submit</ion-chip></ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,11 +12,11 @@
   <ion-card>
     <p>Job information</p>
     <ion-item>
-      <p>Reference: {{(jobDetail | async)?.id}}</p>
+      <p>Reference: {{id}}</p>
     </ion-item>
 
     <ion-item>
-      <p>Completed: {{(jobDetail | async)?.completed}}</p>
+      <p>Completed: {{completed}}</p>
     </ion-item>
   </ion-card>
   <ion-card>
@@ -35,7 +35,6 @@ Contact:
                       </ion-item>
   </ion-card>
 
- 
     <ion-card *ngIf="!taskList">
       <ion-card-header>No notes added yet</ion-card-header>
     </ion-card>

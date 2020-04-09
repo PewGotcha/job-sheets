@@ -13,3 +13,11 @@
         password: string;
 
     }
+
+    export interface jobInformation {
+
+        tasks: string[];
+        id: number;
+        location: number;
+        title: string;
+    }
