@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Jobs, jobInformation } from '../types';
+import { Jobs, jobInformation, locationInformation } from '../types';
 import { JobsService } from '../jobs.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TaskFormPage } from '../task-form/task-form.page';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { NumberValueAccessor } from '@angular/forms';
-import{ take } from 'rxjs/operators'
 import { map } from "rxjs/operators";
 
 @Component({
@@ -25,9 +23,9 @@ export class JobDetailPage implements OnInit {
   title: string = "";
   completed: false = false;
   id: number = 0;
-  location: number = 0;
-  
-
+  contact: string = "";
+  email: string = "";
+location: string = "";
   
    constructor(
     private _angularFireStore: AngularFirestore,
@@ -38,15 +36,13 @@ export class JobDetailPage implements OnInit {
 
     const jobID = activatedRoute.snapshot.params["jobID"];
     this.jobDetail = jobsService.getJob(jobID);
-    this.taskList =  _angularFireStore.collection("jobs").doc(jobID).collection("tasks").valueChanges(); 
+    this.taskList =  _angularFireStore.collection("jobs").doc(this.getDocReference()).collection("tasks").valueChanges(); 
       }
 
    
   ngOnInit() {
     this.getJobInfo();
-    console.log("Job Info object", this.jobInfo);
-  
-
+ 
   }
   
   async openModal() {
@@ -87,34 +83,35 @@ export class JobDetailPage implements OnInit {
           }
         }))
         .subscribe(response => {
-          console.log(response);
           this.jobInfo = response;
           this.title = response.title;
           this.id = response.id;
-          this.location = response.location;
+          let loc: number = response.location;
+          this.getLocationInfo(loc);
         });
       
     }
 
-   /*  getLocationInfo() {
-      this._angularFireStore.doc('jobs/'+this.getDocReference())
+     getLocationInfo(loc: number) {
+
+        
+       this._angularFireStore.doc('locations/' + loc)
         .snapshotChanges().pipe(
         map(snap => {
           if (snap.payload.exists) {
-            const obj = snap.payload.data() as jobInformation;
+            const obj = snap.payload.data() as locationInformation;
             obj.id = +snap.payload.id;
             return obj;
           }
         }))
         .subscribe(response => {
-          console.log(response);
-          this.jobInfo = response;
-          this.title = response.title;
-          this.id = response.id;
           this.location = response.location;
-        });
+          this.email = response.email;
+          this.contact = response.contact;
+
+        }); 
       
-    } */
+    } 
 
 }
 

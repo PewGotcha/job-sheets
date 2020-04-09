@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{(jobDetail | async)?.title}}</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
       </ion-buttons>
@@ -8,9 +8,51 @@
 </ion-header>
 <ion-content>
 <ion-item>
-  <p>Job Reference: {{(jobDetail | async)?.id}}</p>
+  <p>Job Reference: {{id}}</p>
 </ion-item>
 <ion-item>
-  <p>Completed: {{(jobDetail | async)?.completed}}</p>
+  <p>Completed: {{completed}}</p>
 </ion-item>
+
+<ion-card>
+  <p>Contact Information</p>
+  <ion-item>
+    Location: {{location}}
+        </ion-item>
+  <ion-item>
+Contact Name: {{contact}}
+  </ion-item>
+
+        <ion-item>
+          Contact: {{email}}
+              </ion-item>
+
+</ion-card>
+
+  <ion-card *ngIf="!taskList">
+    <ion-card-header>No notes added yet</ion-card-header>
+  </ion-card>
+
+
+<ion-card  *ngFor="let tasks of (taskList | async)">
+  <ion-list >
+    <ion-item lines='none'>
+      <ion-label>
+        <strong>{{tasks.title}}</strong>
+      </ion-label>
+
+      <ion-chip color="primary">{{tasks.user}}</ion-chip>
+    </ion-item>
+
+    <ion-item lines='none'>
+      <ion-text>{{tasks.notes}}</ion-text>
+    </ion-item>
+
+    <ion-item lines='none'>
+      <ion-text><i>{{tasks.date}}</i></ion-text>
+    </ion-item>
+
+  </ion-list>
+</ion-card>
+
 </ion-content>

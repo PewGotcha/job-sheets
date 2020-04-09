@@ -21,3 +21,12 @@
         location: number;
         title: string;
     }
+
+    export interface locationInformation {
+
+        location: string;
+        id: number;
+        email: string;
+        contact: string;
+
+    }
