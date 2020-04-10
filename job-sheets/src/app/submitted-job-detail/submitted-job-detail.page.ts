@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { jobInformation, locationInformation} from '../types';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import {JobsService} from '../jobs.service';
-import { ActivatedRoute } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from "rxjs/operators";
 
 @Component({
@@ -23,9 +21,8 @@ export class SubmittedJobDetailPage implements OnInit {
 location: string = "";
 
   constructor(
-    jobsService: JobsService, 
-    private _angularFireStore: AngularFirestore,
-    activatedRoute: ActivatedRoute) {
+    private _angularFireStore: AngularFirestore
+) {
 
     this.taskList =  _angularFireStore.collection("jobs").doc(this.getDocReference()).collection("tasks").valueChanges(); 
    }

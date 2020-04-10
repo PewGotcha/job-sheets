@@ -27,7 +27,6 @@ export class TaskFormPage implements OnInit {
   }
   submitTask(){
  let ref =  this.getDocReference();
- let form = ["date:" + this.myDate, "time: " + this.myTime, "title: " + this.title]
     this._angularFireStore.collection("jobs").doc(ref).collection("tasks").add({
 
       timestamp: new Date(),
@@ -38,11 +37,6 @@ export class TaskFormPage implements OnInit {
       user: "User"
     })
 
-    console.log ("Date " + this.myDate);
-    console.log ("Time " + this.myTime);
-    console.log ("Title " + this.title);
-    console.log ("Note Added " + this.noteInput);
-    console.log("Task Submitted");
     this._modalController.dismiss();
   }
   getDocReference(){

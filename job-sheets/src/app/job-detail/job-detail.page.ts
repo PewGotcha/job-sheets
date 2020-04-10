@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { jobInformation, locationInformation } from '../types';
-import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TaskFormPage } from '../task-form/task-form.page';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from "rxjs/operators";
 
 @Component({
@@ -25,9 +23,8 @@ location: string = "";
   
    constructor(
     private _angularFireStore: AngularFirestore,
-    private _modalController: ModalController,
-    private _angularFireAuth: AngularFireAuth,
-    activatedRoute: ActivatedRoute) {
+    private _modalController: ModalController
+ ) {
 
 
     this.taskList =  _angularFireStore.collection("jobs").doc(this.getDocReference()).collection("tasks").valueChanges(); 
