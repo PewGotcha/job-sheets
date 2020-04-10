@@ -1,5 +1,7 @@
 {
   "name": "Job Sheets",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
