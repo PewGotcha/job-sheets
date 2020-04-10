@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Jobs, jobInformation, locationInformation } from '../types';
-import { JobsService } from '../jobs.service';
+import { jobInformation, locationInformation } from '../types';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TaskFormPage } from '../task-form/task-form.page';
@@ -16,8 +14,6 @@ import { map } from "rxjs/operators";
 })
 export class JobDetailPage implements OnInit {
 
-  jobDetail: Observable<Jobs>;
-  jobID: string;
   taskList: any;
   jobInfo: jobInformation;
   title: string = "";
@@ -31,11 +27,9 @@ location: string = "";
     private _angularFireStore: AngularFirestore,
     private _modalController: ModalController,
     private _angularFireAuth: AngularFireAuth,
-    jobsService: JobsService,
     activatedRoute: ActivatedRoute) {
 
-    const jobID = activatedRoute.snapshot.params["jobID"];
-    this.jobDetail = jobsService.getJob(jobID);
+
     this.taskList =  _angularFireStore.collection("jobs").doc(this.getDocReference()).collection("tasks").valueChanges(); 
       }
 

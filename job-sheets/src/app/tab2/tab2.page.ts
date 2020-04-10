@@ -9,11 +9,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class Tab2Page {
   
+ 
   realJobList: Observable<any>;
 
   constructor(private _angularFireStore: AngularFirestore) {
     this.realJobList =  _angularFireStore.collection("jobs").valueChanges();
 
   }
+
 
 }

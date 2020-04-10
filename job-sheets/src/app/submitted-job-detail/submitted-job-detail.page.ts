@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {Jobs, jobInformation, locationInformation} from '../types';
+import { jobInformation, locationInformation} from '../types';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
 import {JobsService} from '../jobs.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from "rxjs/operators";
@@ -14,8 +12,7 @@ import { map } from "rxjs/operators";
 })
 export class SubmittedJobDetailPage implements OnInit {
 
-  jobDetail: Observable<Jobs>;
-  jobID: string;
+
   taskList: any;
   jobInfo: jobInformation;
   title: string = "";
@@ -30,8 +27,6 @@ location: string = "";
     private _angularFireStore: AngularFirestore,
     activatedRoute: ActivatedRoute) {
 
-    const jobID = activatedRoute.snapshot.params["jobID"];
-    this.jobDetail = jobsService.getJob(jobID);
     this.taskList =  _angularFireStore.collection("jobs").doc(this.getDocReference()).collection("tasks").valueChanges(); 
    }
 
