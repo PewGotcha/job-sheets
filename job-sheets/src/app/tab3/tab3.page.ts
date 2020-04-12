@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-tab3',
@@ -10,9 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class Tab3Page {
 
-constructor(){
+constructor(
+  private _loginService: LoginService
+){
 
   
 }
 
+logout(){
+    this._loginService.logout();
+    location.reload()
+}
 }

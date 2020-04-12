@@ -16,4 +16,8 @@ export class LoginService {
     )
   }
 
+  logout(){
+
+    return this._angularFireAuth.auth.signOut();
+  }
 }
